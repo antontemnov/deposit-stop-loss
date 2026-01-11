@@ -1,0 +1,45 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Rider
+.idea/
+*.sln.iml
+
+# VSCode
+.vscode/
+
+# NuGet
+packages/
+*.nupkg
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
+# Test results
+TestResults/
+*.trx
+
+# Node.js (Angular)
+node_modules/
+dist/
+.angular/
+
+# Environment files
+.env
+.env.local
+appsettings.Development.json
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Redis
+dump.rdb
