@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), global.json))\.props\DotNet.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+    <PackageReference Include="Telegram.Bot" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DepositStopLoss.Domain\DepositStopLoss.Domain.csproj" />
+    <ProjectReference Include="..\DepositStopLoss.Application\DepositStopLoss.Application.csproj" />
+  </ItemGroup>
+
+</Project>

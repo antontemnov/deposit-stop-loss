@@ -1,0 +1,9 @@
+<Project>
+
+  <Import Project="DotNet.props" />
+
+  <PropertyGroup>
+    <OutputPath>$(OutputRoot)libs\</OutputPath>
+  </PropertyGroup>
+
+</Project>

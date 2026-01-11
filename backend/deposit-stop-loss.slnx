@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src\DepositStopLoss.Domain\DepositStopLoss.Domain.csproj" />
+    <Project Path="src\DepositStopLoss.Application\DepositStopLoss.Application.csproj" />
+    <Project Path="src\DepositStopLoss.Infrastructure\DepositStopLoss.Infrastructure.csproj" />
+    <Project Path="src\DepositStopLoss.Api\DepositStopLoss.Api.csproj" />
+    <Project Path="src\DepositStopLoss.TelegramBot\DepositStopLoss.TelegramBot.csproj" />
+    <Project Path="src\DepositStopLoss.Shared\DepositStopLoss.Shared.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests\DepositStopLoss.Application.Tests\DepositStopLoss.Application.Tests.csproj" />
+    <Project Path="tests\DepositStopLoss.Integration.Tests\DepositStopLoss.Integration.Tests.csproj" />
+  </Folder>
+</Solution>

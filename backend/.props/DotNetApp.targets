@@ -1,0 +1,18 @@
+<Project>
+
+  <Import Project="DotNet.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+
+    <InformationalVersion>$(VersionPrefix)+$(SourceRevisionId)</InformationalVersion>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputPath>$(OutputRoot)apps\$(MSBuildProjectName)\</OutputPath>
+  </PropertyGroup>
+
+</Project>

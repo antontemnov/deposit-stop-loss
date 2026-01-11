@@ -1,0 +1,30 @@
+<Project>
+
+  <Import Project="$(MSBuildThisFileDirectory)Version.props" />
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+
+    <Root>$(MSBuildThisFileDirectory)</Root>
+    <StyleRoot>$(Root).style\</StyleRoot>
+    <OutputRoot>$(Root)build\$(Configuration)\</OutputRoot>
+    <BaseIntermediateOutputPath>$(Root)build\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <NuGetAudit>false</NuGetAudit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <GlobalAnalyzerConfigFiles Include="$(StyleRoot)*.globalconfig" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Product>Deposit Stop Loss</Product>
+    <Authors>$(Company)</Authors>
+    <Copyright>Copyright © $(Company). All rights reserved.</Copyright>
+  </PropertyGroup>
+
+</Project>

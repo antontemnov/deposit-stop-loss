@@ -1,0 +1,7 @@
+<Project>
+
+  <PropertyGroup>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+
+</Project>

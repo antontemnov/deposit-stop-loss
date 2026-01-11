@@ -1,0 +1,13 @@
+<Project>
+
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/antontemnov/deposit-stop-loss.git</RepositoryUrl>
+    <SourceRevisionId></SourceRevisionId>
+
+    <Configuration>Debug</Configuration>
+
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix />
+  </PropertyGroup>
+
+</Project>
