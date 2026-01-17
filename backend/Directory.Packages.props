@@ -11,7 +11,7 @@
     <!-- Api Analyzers -->
     <GlobalPackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0" />
     <!-- Async Analyzers -->
-    <GlobalPackageReference Include="AsyncFixer" Version="1.6.0" />
+    <GlobalPackageReference Include="AsyncFixer" Version="2.1.0" />
     <!-- Style Analyzers -->
     <GlobalPackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556" />
     <!-- Other Analyzers -->
@@ -24,33 +24,35 @@
 
   <ItemGroup>
     <!-- API Framework (replaces MediatR) -->
-    <PackageVersion Include="FastEndpoints" Version="5.34.0" />
-    <PackageVersion Include="FastEndpoints.Swagger" Version="5.34.0" />
-
+    <PackageVersion Include="FastEndpoints" Version="7.2.0" />
+    <PackageVersion Include="FastEndpoints.Swagger" Version="7.2.0" />
     <!-- Validation -->
-    <PackageVersion Include="FluentValidation" Version="12.0.0" />
-    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageVersion Include="FluentValidation" Version="12.1.1" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
 
     <!-- Result Pattern -->
-    <PackageVersion Include="ErrorOr" Version="4.0.0" />
+    <PackageVersion Include="ErrorOr" Version="2.0.1" />
 
     <!-- Mapping - Source Generator -->
-    <PackageVersion Include="Riok.Mapperly" Version="4.2.0" />
+    <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
 
+    <!-- Dependency Injection -->
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
     <!-- Date/Time -->
-    <PackageVersion Include="NodaTime" Version="3.2.2" />
+    <PackageVersion Include="NodaTime" Version="3.3.0" />
     <PackageVersion Include="NodaTime.Serialization.SystemTextJson" Version="1.3.0" />
 
     <!-- Database -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
 
     <!-- Background Jobs -->
-    <PackageVersion Include="Quartz" Version="3.16.0" />
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.16.0" />
-    <PackageVersion Include="Quartz.Serialization.Json" Version="3.16.0" />
+    <PackageVersion Include="Quartz" Version="3.15.1" />
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.1" />
+    <PackageVersion Include="Quartz.Serialization.Json" Version="3.15.1" />
 
     <!-- Telegram Bot -->
     <PackageVersion Include="Telegram.Bot" Version="22.8.1" />
@@ -67,15 +69,15 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.11.1" />
 
     <!-- Authentication -->
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
 
     <!-- Testing -->
     <PackageVersion Include="xunit" Version="2.9.3" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
-    <PackageVersion Include="FluentAssertions" Version="8.4.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
+    <PackageVersion Include="FluentAssertions" Version="8.8.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.2" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
   </ItemGroup>
 
