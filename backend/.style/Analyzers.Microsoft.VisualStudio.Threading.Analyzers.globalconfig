@@ -1,0 +1,10 @@
+is_global = true
+global_level = 0
+
+dotnet_diagnostic.VSTHRD100.severity = warning # Avoid async void methods
+dotnet_diagnostic.VSTHRD101.severity = warning # Avoid unsupported async delegates
+dotnet_diagnostic.VSTHRD106.severity = warning # Use InvokeAsync to raise async events
+dotnet_diagnostic.VSTHRD111.severity = warning # Use ConfigureAwait(bool)
+dotnet_diagnostic.VSTHRD113.severity = warning # Check for System.IAsyncDisposable
+dotnet_diagnostic.VSTHRD115.severity = warning # Avoid creating JoinableTaskContext with null SynchronizationContext
+dotnet_diagnostic.VSTHRD200.severity = none # Use "Async" suffix for async methods

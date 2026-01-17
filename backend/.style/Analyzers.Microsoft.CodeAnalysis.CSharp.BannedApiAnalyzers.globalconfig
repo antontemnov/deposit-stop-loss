@@ -1,0 +1,6 @@
+is_global = true
+global_level = 0
+
+dotnet_diagnostic.RS0030.severity = warning # Do not use banned APIs
+dotnet_diagnostic.RS0031.severity = warning # The list of banned symbols contains a duplicate
+dotnet_diagnostic.RS0035.severity = warning # External access to internal symbols outside the restricted namespace(s) is prohibited

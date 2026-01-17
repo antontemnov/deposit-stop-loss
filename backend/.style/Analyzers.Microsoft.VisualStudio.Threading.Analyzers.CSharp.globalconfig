@@ -1,0 +1,20 @@
+is_global = true
+global_level = 0
+
+dotnet_diagnostic.VSTHRD001.severity = warning # Avoid legacy thread switching APIs
+dotnet_diagnostic.VSTHRD002.severity = warning # Avoid problematic synchronous waits
+dotnet_diagnostic.VSTHRD003.severity = warning # Avoid awaiting foreign Tasks
+dotnet_diagnostic.VSTHRD004.severity = warning # Await SwitchToMainThreadAsync
+dotnet_diagnostic.VSTHRD010.severity = warning # Invoke single-threaded types on Main thread
+dotnet_diagnostic.VSTHRD011.severity = warning # Use AsyncLazy<T>
+dotnet_diagnostic.VSTHRD012.severity = warning # Provide JoinableTaskFactory where allowed
+dotnet_diagnostic.VSTHRD102.severity = warning # Implement internal logic asynchronously
+dotnet_diagnostic.VSTHRD103.severity = warning # Call async methods when in an async method
+dotnet_diagnostic.VSTHRD104.severity = warning # Offer async methods
+dotnet_diagnostic.VSTHRD105.severity = warning # Avoid method overloads that assume TaskScheduler.Current
+dotnet_diagnostic.VSTHRD107.severity = warning # Await Task within using expression
+dotnet_diagnostic.VSTHRD108.severity = warning # Assert thread affinity unconditionally
+dotnet_diagnostic.VSTHRD109.severity = warning # Switch instead of assert in async methods
+dotnet_diagnostic.VSTHRD110.severity = warning # Observe result of async calls
+dotnet_diagnostic.VSTHRD112.severity = warning # Implement System.IAsyncDisposable
+dotnet_diagnostic.VSTHRD114.severity = warning # Avoid returning a null Task

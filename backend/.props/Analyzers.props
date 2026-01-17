@@ -4,4 +4,10 @@
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="$(StyleRoot)BannedMembers.yaml" Visible="False" />
+    <AdditionalFiles Include="$(StyleRoot)BannedSymbols.txt" Visible="False" />
+    <AdditionalFiles Include="$(StyleRoot)stylecop.json" Visible="False" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,8 @@
+is_global = true
+global_level = 0
+
+dotnet_diagnostic.AsyncFixer01.severity = warning # Unnecessary async/await usage
+dotnet_diagnostic.AsyncFixer02.severity = warning # Long-running or blocking operations inside an async method
+dotnet_diagnostic.AsyncFixer03.severity = warning # Fire-and-forget async-void methods or delegates
+dotnet_diagnostic.AsyncFixer04.severity = warning # Fire-and-forget async call inside a using block
+dotnet_diagnostic.AsyncFixer05.severity = warning # Downcasting from a nested task to an outer task.

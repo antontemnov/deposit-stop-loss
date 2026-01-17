@@ -8,14 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Code Analysis -->
-    <GlobalPackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
+    <!-- Api Analyzers -->
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0" />
+    <!-- Async Analyzers -->
     <GlobalPackageReference Include="AsyncFixer" Version="1.6.0" />
-    <GlobalPackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15" />
+    <!-- Style Analyzers -->
+    <GlobalPackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556" />
+    <!-- Other Analyzers -->
     <GlobalPackageReference Include="Meziantou.Analyzer" Version="2.0.256" />
-
     <!-- Add support for ReFS, Dev Drive and Copy on Write -->
     <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.334" />
+    <!-- Code Analysis -->
+    <GlobalPackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15" />
   </ItemGroup>
 
   <ItemGroup>
