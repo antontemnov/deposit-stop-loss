@@ -2,4 +2,8 @@
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), global.json))\.props\DotNet.targets" />
 
+  <ItemGroup>
+    <PackageReference Include="NodaTime" />
+  </ItemGroup>
+
 </Project>
