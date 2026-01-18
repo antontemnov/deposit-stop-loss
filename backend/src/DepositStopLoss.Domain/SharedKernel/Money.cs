@@ -15,6 +15,7 @@ public sealed record Money
     }
 
     public decimal Amount { get; }
+
     public Currency Currency { get; }
 
     /// <summary>
@@ -30,12 +31,9 @@ public sealed record Money
         return new Money(Math.Round(amount, 2), currency);
     }
 
-    /// <summary>
-    ///     Internal factory allowing negative amounts (for loss calculations).
-    /// </summary>
-    private static Money CreateAllowNegative(decimal amount, Currency currency)
+    public static Money Eur(decimal amount)
     {
-        return new Money(Math.Round(amount, 2), currency);
+        return Create(amount, Currency.Eur);
     }
 
     // Common currencies shortcuts
@@ -47,11 +45,6 @@ public sealed record Money
     public static Money Usd(decimal amount)
     {
         return Create(amount, Currency.Usd);
-    }
-
-    public static Money Eur(decimal amount)
-    {
-        return Create(amount, Currency.Eur);
     }
 
     public static Money Zero(Currency currency)
@@ -68,29 +61,6 @@ public sealed record Money
         EnsureSameCurrency(other);
 
         return Create(Amount + other.Amount, Currency);
-    }
-
-    /// <summary>
-    ///     Subtracts other Money from this. Must be same currency.
-    ///     Result can be negative (for loss calculations).
-    /// </summary>
-    public Money Subtract(Money other)
-    {
-        ArgumentNullException.ThrowIfNull(other);
-        EnsureSameCurrency(other);
-
-        return CreateAllowNegative(Amount - other.Amount, Currency);
-    }
-
-    /// <summary>
-    ///     Multiplies amount by a factor (e.g., for interest calculation).
-    /// </summary>
-    public Money MultiplyBy(decimal factor)
-    {
-        var result = Amount * factor;
-        return result >= 0
-            ? Create(result, Currency)
-            : CreateAllowNegative(result, Currency);
     }
 
     /// <summary>
@@ -117,6 +87,42 @@ public sealed record Money
         return Currency == other.Currency;
     }
 
+    /// <summary>
+    ///     Multiplies amount by a factor (e.g., for interest calculation).
+    /// </summary>
+    public Money MultiplyBy(decimal factor)
+    {
+        var result = Amount * factor;
+        return result >= 0
+            ? Create(result, Currency)
+            : CreateAllowNegative(result, Currency);
+    }
+
+    /// <summary>
+    ///     Subtracts other Money from this. Must be same currency.
+    ///     Result can be negative (for loss calculations).
+    /// </summary>
+    public Money Subtract(Money other)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+        EnsureSameCurrency(other);
+
+        return CreateAllowNegative(Amount - other.Amount, Currency);
+    }
+
+    public override string ToString()
+    {
+        return $"{Amount:N2} {Currency}";
+    }
+
+    /// <summary>
+    ///     Internal factory allowing negative amounts (for loss calculations).
+    /// </summary>
+    private static Money CreateAllowNegative(decimal amount, Currency currency)
+    {
+        return new Money(Math.Round(amount, 2), currency);
+    }
+
     private void EnsureSameCurrency(Money other)
     {
         if (Currency != other.Currency)
@@ -124,10 +130,5 @@ public sealed record Money
             throw new InvalidOperationException(
                 $"Cannot perform operation on Money with different currencies: {Currency} and {other.Currency}");
         }
-    }
-
-    public override string ToString()
-    {
-        return $"{Amount:N2} {Currency}";
     }
 }

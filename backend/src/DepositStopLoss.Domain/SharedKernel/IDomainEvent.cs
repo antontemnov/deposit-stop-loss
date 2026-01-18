@@ -1,4 +1,4 @@
-using System;
+using NodaTime;
 
 namespace DepositStopLoss.Domain.SharedKernel;
 
@@ -8,5 +8,5 @@ namespace DepositStopLoss.Domain.SharedKernel;
 /// </summary>
 public interface IDomainEvent
 {
-    DateTime OccurredAt { get; }
+    Instant OccurredAt { get; }
 }

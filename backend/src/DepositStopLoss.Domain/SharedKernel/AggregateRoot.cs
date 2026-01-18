@@ -7,9 +7,12 @@ namespace DepositStopLoss.Domain.SharedKernel;
 public abstract class AggregateRoot<TIdentity> : Entity<TIdentity>, IAggregateRoot
     where TIdentity : struct
 {
-    protected AggregateRoot() { }
+    protected AggregateRoot()
+    {
+    }
 
-    protected AggregateRoot(TIdentity id) : base(id)
+    protected AggregateRoot(TIdentity id)
+        : base(id)
     {
     }
 }
