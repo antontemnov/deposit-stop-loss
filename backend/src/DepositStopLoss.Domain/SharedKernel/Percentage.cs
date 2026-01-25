@@ -44,6 +44,7 @@ public sealed record Percentage
     public bool IsBelowThreshold(Percentage threshold)
     {
         ArgumentNullException.ThrowIfNull(threshold);
+
         return Value <= threshold.Value;
     }
 

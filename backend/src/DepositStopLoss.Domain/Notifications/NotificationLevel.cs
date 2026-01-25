@@ -23,5 +23,5 @@ public enum NotificationLevel
     /// <summary>
     ///     Profitability is zero or negative. Cooldown: 1h
     /// </summary>
-    Critical = 3
+    Critical = 3,
 }

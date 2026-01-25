@@ -23,5 +23,5 @@ public enum DepositStatus
     /// <summary>
     ///     Deposit has been closed/withdrawn
     /// </summary>
-    Closed = 3
+    Closed = 3,
 }

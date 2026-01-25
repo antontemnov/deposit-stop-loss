@@ -6,7 +6,7 @@ namespace DepositStopLoss.Domain.SharedKernel;
 ///     Base record for all domain events.
 ///     Using record for immutability and value-based equality.
 /// </summary>
-public abstract record DomainEventBase : IDomainEvent
+public abstract record DomainEventBase(Instant OccurredOn) : IDomainEvent
 {
-    public Instant OccurredAt { get; } = SystemClock.Instance.GetCurrentInstant();
+    public Instant OccurredAt { get; init; } = OccurredOn;
 }

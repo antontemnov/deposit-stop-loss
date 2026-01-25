@@ -18,5 +18,5 @@ public enum RateType
     /// <summary>
     ///     Discounted rates for TBC Concept subscription holders
     /// </summary>
-    Concept = 2
+    Concept = 2,
 }

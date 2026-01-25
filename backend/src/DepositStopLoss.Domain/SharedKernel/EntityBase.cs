@@ -7,7 +7,9 @@ namespace DepositStopLoss.Domain.SharedKernel;
 /// </summary>
 public abstract class EntityBase
 {
-    private readonly List<IDomainEvent> _domainEvents = [];
+    private readonly List<IDomainEvent> _domainEvents =
+    [
+    ];
 
     /// <summary>
     ///     Domain events raised by this entity.

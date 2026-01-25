@@ -74,7 +74,8 @@ public sealed record Money
             throw new ArgumentException("Exchange rate must be positive", nameof(exchangeRate));
         }
 
-        var convertedAmount = Math.Round(Amount / exchangeRate, 2);
+        decimal convertedAmount = Math.Round(Amount / exchangeRate, 2);
+
         return Create(convertedAmount, targetCurrency);
     }
 
@@ -84,6 +85,7 @@ public sealed record Money
     public bool HasSameCurrency(Money other)
     {
         ArgumentNullException.ThrowIfNull(other);
+
         return Currency == other.Currency;
     }
 
@@ -92,10 +94,9 @@ public sealed record Money
     /// </summary>
     public Money MultiplyBy(decimal factor)
     {
-        var result = Amount * factor;
-        return result >= 0
-            ? Create(result, Currency)
-            : CreateAllowNegative(result, Currency);
+        decimal result = Amount * factor;
+
+        return result >= 0 ? Create(result, Currency) : CreateAllowNegative(result, Currency);
     }
 
     /// <summary>

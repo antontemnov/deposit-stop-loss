@@ -24,5 +24,5 @@ public enum Currency
     /// <summary>
     ///     Euro - future support
     /// </summary>
-    Eur = 3
+    Eur = 3,
 }

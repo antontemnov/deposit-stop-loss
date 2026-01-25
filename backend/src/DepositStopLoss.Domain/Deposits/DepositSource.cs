@@ -23,5 +23,5 @@ public enum DepositSource
     /// <summary>
     ///     Imported via Bank of Georgia API - readonly except StopLoss
     /// </summary>
-    BogApi = 3
+    BogApi = 3,
 }

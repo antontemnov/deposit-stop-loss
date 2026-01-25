@@ -28,5 +28,5 @@ public enum NotificationStatus
     /// <summary>
     ///     User acknowledged/read the notification
     /// </summary>
-    Read = 4
+    Read = 4,
 }
