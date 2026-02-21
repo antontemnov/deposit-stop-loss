@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DepositStopLoss.Application.Repositories;
+using DepositStopLoss.Application.Persistence;
 using DepositStopLoss.Domain.Deposits;
 using DepositStopLoss.Domain.Users;
 
@@ -23,36 +24,36 @@ public sealed class DepositRepository : IDepositRepository
     public Task AddAsync(Deposit deposit, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task DeleteAsync(Deposit deposit, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<Deposit>> GetActiveDepositsAsync(CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<Deposit?> GetByIdAsync(DepositIdentity id, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<Deposit>> GetByUserIdAsync(UserIdentity userId, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task UpdateAsync(Deposit deposit, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 }

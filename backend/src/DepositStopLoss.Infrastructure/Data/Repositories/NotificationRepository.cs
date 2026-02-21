@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DepositStopLoss.Application.Repositories;
+using DepositStopLoss.Application.Persistence;
 using DepositStopLoss.Domain.Deposits;
 using DepositStopLoss.Domain.Notifications;
 using DepositStopLoss.Domain.Users;
@@ -24,25 +25,25 @@ public sealed class NotificationRepository : INotificationRepository
     public Task AddAsync(Notification notification, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task DeleteOlderThanAsync(int daysOld, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<Notification?> GetByIdAsync(NotificationIdentity id, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<Notification>> GetByUserIdAsync(UserIdentity userId, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<Notification?> GetLastByDepositAndLevelAsync(
@@ -51,18 +52,18 @@ public sealed class NotificationRepository : INotificationRepository
         CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<Notification>> GetPendingAsync(CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task UpdateAsync(Notification notification, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 }

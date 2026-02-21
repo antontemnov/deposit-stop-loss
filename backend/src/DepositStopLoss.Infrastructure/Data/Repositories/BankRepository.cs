@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DepositStopLoss.Application.Repositories;
+using DepositStopLoss.Application.Persistence;
 using DepositStopLoss.Domain.Banking;
 
 namespace DepositStopLoss.Infrastructure.Data.Repositories;
@@ -22,30 +23,30 @@ public sealed class BankRepository : IBankRepository
     public Task AddAsync(Bank bank, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<Bank>> GetAllActiveAsync(CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<Bank?> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<Bank?> GetByIdAsync(BankIdentity id, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task UpdateAsync(Bank bank, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 }

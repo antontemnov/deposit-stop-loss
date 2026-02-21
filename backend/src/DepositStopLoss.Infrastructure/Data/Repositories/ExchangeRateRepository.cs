@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DepositStopLoss.Application.Repositories;
+using DepositStopLoss.Application.Persistence;
 using DepositStopLoss.Domain.Banking;
 using DepositStopLoss.Domain.SharedKernel;
 
@@ -25,13 +26,13 @@ public sealed class ExchangeRateRepository : IExchangeRateRepository
     public Task AddAsync(ExchangeRate rate, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task AddRangeAsync(IEnumerable<ExchangeRate> rates, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<ExchangeRate?> GetLatestRateAsync(
@@ -42,7 +43,7 @@ public sealed class ExchangeRateRepository : IExchangeRateRepository
         CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<ExchangeRate?> GetRateForDateAsync(
@@ -54,7 +55,7 @@ public sealed class ExchangeRateRepository : IExchangeRateRepository
         CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<ExchangeRate>> GetRatesInRangeAsync(
@@ -67,6 +68,6 @@ public sealed class ExchangeRateRepository : IExchangeRateRepository
         CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 }

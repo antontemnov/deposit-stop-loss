@@ -22,13 +22,17 @@ public sealed class BankConfiguration : IEntityTypeConfiguration<Bank>
 
         builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(100).IsRequired();
 
-        builder.Property(x => x.CommercialApiUrl).HasColumnName("commercial_api_url").HasMaxLength(500).IsRequired();
-
-        builder.Property(x => x.DiscountedApiUrl).HasColumnName("discounted_api_url").HasMaxLength(500);
+        builder.Property(x => x.Type).HasColumnName("type").HasConversion<int>().IsRequired();
 
         builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired();
 
+        // One-to-many: Bank → BankRateSource
+        builder.HasMany(x => x.RateSources).WithOne().HasForeignKey(x => x.BankId).OnDelete(DeleteBehavior.Cascade);
+
         // Indexes
         builder.HasIndex(x => x.Code).IsUnique().HasDatabaseName("ix_banks_code");
+
+        // Seed data — applied in a separate migration (SeedBanks)
+        builder.HasData(SeedData.GetBanks());
     }
 }

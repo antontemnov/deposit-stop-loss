@@ -1,5 +1,7 @@
-﻿using DepositStopLoss.Application.ExternalServices;
-using DepositStopLoss.Application.Repositories;
+﻿using System.Net.Http;
+
+using DepositStopLoss.Application.ExternalServices;
+using DepositStopLoss.Application.Persistence;
 using DepositStopLoss.Infrastructure.BackgroundJobs;
 using DepositStopLoss.Infrastructure.Data;
 using DepositStopLoss.Infrastructure.Data.Repositories;
@@ -8,6 +10,7 @@ using DepositStopLoss.Infrastructure.ExternalServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using Quartz;
 
 namespace DepositStopLoss.Infrastructure;
@@ -24,6 +27,9 @@ public static class DependencyInjection
             configuration.GetConnectionString("DefaultConnection"),
             npgsqlOptions => npgsqlOptions.UseNodaTime()));
 
+        // Unit of Work
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IDepositRepository, DepositRepository>();
@@ -39,14 +45,11 @@ public static class DependencyInjection
         // services.AddHttpClient<BogExchangeRateProvider>();
 
         // For now, register providers without HttpClient factory
-        services.AddScoped<IExchangeRateProvider, NbgExchangeRateProvider>(sp =>
-            new NbgExchangeRateProvider(new System.Net.Http.HttpClient()));
+        services.AddScoped<IExchangeRateProvider, NbgExchangeRateProvider>(sp => new NbgExchangeRateProvider(new HttpClient()));
 
-        services.AddScoped<IExchangeRateProvider, TbcExchangeRateProvider>(sp =>
-            new TbcExchangeRateProvider(new System.Net.Http.HttpClient()));
+        services.AddScoped<IExchangeRateProvider, TbcExchangeRateProvider>(sp => new TbcExchangeRateProvider(new HttpClient()));
 
-        services.AddScoped<IExchangeRateProvider, BogExchangeRateProvider>(sp =>
-            new BogExchangeRateProvider(new System.Net.Http.HttpClient()));
+        services.AddScoped<IExchangeRateProvider, BogExchangeRateProvider>(sp => new BogExchangeRateProvider(new HttpClient()));
 
         // Quartz Background Jobs
         services.AddQuartz(q =>

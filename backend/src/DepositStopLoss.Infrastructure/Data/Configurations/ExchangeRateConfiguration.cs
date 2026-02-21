@@ -7,7 +7,6 @@ namespace DepositStopLoss.Infrastructure.Data.Configurations;
 
 /// <summary>
 ///     EF Core configuration for ExchangeRate entity.
-///     Note: This is a stub configuration.
 /// </summary>
 public sealed class ExchangeRateConfiguration : IEntityTypeConfiguration<ExchangeRate>
 {
@@ -25,9 +24,10 @@ public sealed class ExchangeRateConfiguration : IEntityTypeConfiguration<Exchang
             .HasConversion(id => id.Value, value => new BankIdentity(value))
             .IsRequired();
 
-        // TODO: Configure Currency value objects properly
-        builder.Ignore(x => x.FromCurrency);
-        builder.Ignore(x => x.ToCurrency);
+        // Currency enums → integer storage
+        builder.Property(x => x.FromCurrency).HasColumnName("from_currency").HasConversion<int>().IsRequired();
+
+        builder.Property(x => x.ToCurrency).HasColumnName("to_currency").HasConversion<int>().IsRequired();
 
         builder.Property(x => x.BuyRate).HasColumnName("buy_rate").HasPrecision(18, 6).IsRequired();
 
@@ -35,11 +35,24 @@ public sealed class ExchangeRateConfiguration : IEntityTypeConfiguration<Exchang
 
         builder.Property(x => x.RateDate).HasColumnName("rate_date").IsRequired();
 
-        builder.Property(x => x.RateType).HasColumnName("rate_type").HasConversion<string>().HasMaxLength(20).IsRequired();
+        builder.Property(x => x.RateType).HasColumnName("rate_type").HasConversion<int>().IsRequired();
 
         builder.Property(x => x.FetchedAt).HasColumnName("fetched_at").IsRequired();
 
         // Indexes
         builder.HasIndex(x => x.RateDate).HasDatabaseName("ix_exchange_rates_rate_date");
+
+        // Unique composite index for rate lookup
+        builder
+            .HasIndex(x => new
+            {
+                x.BankId,
+                x.FromCurrency,
+                x.ToCurrency,
+                x.RateDate,
+                x.RateType,
+            })
+            .IsUnique()
+            .HasDatabaseName("ix_exchange_rates_bank_currencies_date_type");
     }
 }

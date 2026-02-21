@@ -37,6 +37,9 @@ public sealed class UserBankConnectionConfiguration : IEntityTypeConfiguration<U
 
         builder.Property(x => x.TokenExpiresAt).HasColumnName("token_expires_at");
 
+        // PostgreSQL text[] for scopes
+        builder.Property(x => x.Scopes).HasColumnName("scopes").HasColumnType("text[]");
+
         builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired();
 
         builder.Property(x => x.ConnectedAt).HasColumnName("connected_at").IsRequired();

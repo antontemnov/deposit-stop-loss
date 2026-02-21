@@ -1,5 +1,6 @@
 ﻿using DepositStopLoss.Domain.Banking;
 using DepositStopLoss.Domain.Deposits;
+using DepositStopLoss.Domain.SharedKernel;
 using DepositStopLoss.Domain.Users;
 
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace DepositStopLoss.Infrastructure.Data.Configurations;
 
 /// <summary>
-///     EF Core configuration for Deposit entity.
-///     Note: This is a stub configuration. Full implementation requires proper value object mapping.
+///     EF Core configuration for Deposit aggregate.
 /// </summary>
 public sealed class DepositConfiguration : IEntityTypeConfiguration<Deposit>
 {
@@ -33,6 +33,24 @@ public sealed class DepositConfiguration : IEntityTypeConfiguration<Deposit>
             .HasConversion(id => id.Value, value => new BankIdentity(value))
             .IsRequired();
 
+        builder.Property(x => x.Currency).HasColumnName("currency").HasConversion<int>().IsRequired();
+
+        // Percentage → ValueConverter (stores decimal value directly)
+        builder
+            .Property(x => x.AnnualInterestRate)
+            .HasColumnName("annual_interest_rate")
+            .HasPrecision(5, 2)
+            .HasConversion(p => p.Value, v => Percentage.FromValue(v))
+            .IsRequired();
+
+        // Percentage → ValueConverter
+        builder
+            .Property(x => x.StopLossThreshold)
+            .HasColumnName("stop_loss_threshold")
+            .HasPrecision(5, 2)
+            .HasConversion(p => p.Value, v => Percentage.FromValue(v))
+            .IsRequired();
+
         builder.Property(x => x.TermMonths).HasColumnName("term_months").IsRequired();
 
         builder.Property(x => x.OpenedAt).HasColumnName("opened_at").IsRequired();
@@ -41,19 +59,18 @@ public sealed class DepositConfiguration : IEntityTypeConfiguration<Deposit>
 
         builder.Property(x => x.ClosedAt).HasColumnName("closed_at");
 
-        builder.Property(x => x.Status).HasColumnName("status").HasConversion<string>().HasMaxLength(20).IsRequired();
+        // Enums → integer storage
+        builder.Property(x => x.Status).HasColumnName("status").HasConversion<int>().IsRequired();
 
-        builder.Property(x => x.Source).HasColumnName("source").HasConversion<string>().HasMaxLength(20).IsRequired();
+        builder.Property(x => x.Source).HasColumnName("source").HasConversion<int>().IsRequired();
 
-        builder.Property(x => x.RateType).HasColumnName("rate_type").HasConversion<string>().HasMaxLength(20).IsRequired();
+        builder.Property(x => x.RateType).HasColumnName("rate_type").HasConversion<int>().IsRequired();
 
-        // TODO: Configure Money and Percentage value objects properly
-        // For now, ignore complex navigation properties
-        builder.Ignore(x => x.InitialAmount);
+        // CurrentAmount is derived from contributions — not mapped
         builder.Ignore(x => x.CurrentAmount);
-        builder.Ignore(x => x.AnnualInterestRate);
-        builder.Ignore(x => x.StopLossThreshold);
-        builder.Ignore(x => x.Contributions);
+
+        // HasMany relationship to DepositContribution
+        builder.HasMany(x => x.Contributions).WithOne().HasForeignKey(x => x.DepositId).OnDelete(DeleteBehavior.Cascade);
 
         // Indexes
         builder.HasIndex(x => x.UserId).HasDatabaseName("ix_deposits_user_id");

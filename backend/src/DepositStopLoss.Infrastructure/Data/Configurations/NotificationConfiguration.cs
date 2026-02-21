@@ -32,11 +32,11 @@ public sealed class NotificationConfiguration : IEntityTypeConfiguration<Notific
             .HasConversion(id => id.Value, value => new DepositIdentity(value))
             .IsRequired();
 
-        builder.Property(x => x.Level).HasColumnName("level").HasConversion<string>().HasMaxLength(20).IsRequired();
+        builder.Property(x => x.Level).HasColumnName("level").HasConversion<int>().IsRequired();
 
         builder.Property(x => x.Message).HasColumnName("message").HasMaxLength(1000).IsRequired();
 
-        builder.Property(x => x.Status).HasColumnName("status").HasConversion<string>().HasMaxLength(20).IsRequired();
+        builder.Property(x => x.Status).HasColumnName("status").HasConversion<int>().IsRequired();
 
         builder.Property(x => x.ErrorMessage).HasColumnName("error_message").HasMaxLength(500);
 

@@ -18,7 +18,11 @@ public sealed class ApplicationDbContext : DbContext
     {
     }
 
+    public DbSet<BankRateSource> BankRateSources => Set<BankRateSource>();
+
     public DbSet<Bank> Banks => Set<Bank>();
+
+    public DbSet<DepositContribution> DepositContributions => Set<DepositContribution>();
 
     public DbSet<Deposit> Deposits => Set<Deposit>();
 

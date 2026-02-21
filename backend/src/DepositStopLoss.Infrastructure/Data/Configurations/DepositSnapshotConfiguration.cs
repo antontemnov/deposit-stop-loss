@@ -1,4 +1,5 @@
 ﻿using DepositStopLoss.Domain.Deposits;
+using DepositStopLoss.Domain.SharedKernel;
 using DepositStopLoss.Domain.Snapshots;
 
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,6 @@ namespace DepositStopLoss.Infrastructure.Data.Configurations;
 
 /// <summary>
 ///     EF Core configuration for DepositSnapshot entity.
-///     Note: This is a stub configuration.
 /// </summary>
 public sealed class DepositSnapshotConfiguration : IEntityTypeConfiguration<DepositSnapshot>
 {
@@ -26,11 +26,40 @@ public sealed class DepositSnapshotConfiguration : IEntityTypeConfiguration<Depo
             .HasConversion(id => id.Value, value => new DepositIdentity(value))
             .IsRequired();
 
-        // TODO: Configure Money and Percentage value objects properly
-        builder.Ignore(x => x.TotalAmountInDepositCurrency);
-        builder.Ignore(x => x.TotalAmountInUsd);
-        builder.Ignore(x => x.AccruedInterest);
-        builder.Ignore(x => x.ProfitLossPercent);
+        // Money TotalAmountInDepositCurrency → ComplexProperty
+        builder.ComplexProperty(
+            x => x.TotalAmountInDepositCurrency,
+            money =>
+            {
+                money.Property(m => m.Amount).HasColumnName("total_amount_deposit_currency").HasPrecision(18, 2).IsRequired();
+                money.Property(m => m.Currency).HasColumnName("total_amount_deposit_currency_code").HasConversion<int>().IsRequired();
+            });
+
+        // Money TotalAmountInUsd → ComplexProperty
+        builder.ComplexProperty(
+            x => x.TotalAmountInUsd,
+            money =>
+            {
+                money.Property(m => m.Amount).HasColumnName("total_amount_usd").HasPrecision(18, 2).IsRequired();
+                money.Property(m => m.Currency).HasColumnName("total_amount_usd_currency").HasConversion<int>().IsRequired();
+            });
+
+        // Money AccruedInterest → ComplexProperty
+        builder.ComplexProperty(
+            x => x.AccruedInterest,
+            money =>
+            {
+                money.Property(m => m.Amount).HasColumnName("accrued_interest").HasPrecision(18, 2).IsRequired();
+                money.Property(m => m.Currency).HasColumnName("accrued_interest_currency").HasConversion<int>().IsRequired();
+            });
+
+        // Percentage ProfitLossPercent → ValueConverter
+        builder
+            .Property(x => x.ProfitLossPercent)
+            .HasColumnName("profit_loss_percent")
+            .HasPrecision(8, 2)
+            .HasConversion(p => p.Value, v => Percentage.FromValue(v))
+            .IsRequired();
 
         builder.Property(x => x.ExchangeRate).HasColumnName("exchange_rate").HasPrecision(18, 6).IsRequired();
 

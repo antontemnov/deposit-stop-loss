@@ -144,6 +144,10 @@ MA0051.maximum_statements_per_method = 190
 indent_size = 4
 tab_width = 4
 
+# EF Core migrations — auto-generated, suppress all analyzers
+[**/Data/Migrations/*.cs]
+generated_code = true
+
 [{*.csproj,*.props,*.targets,*.slnx}]
 ij_xml_keep_blank_lines = 1
 ij_xml_space_inside_empty_tag = true

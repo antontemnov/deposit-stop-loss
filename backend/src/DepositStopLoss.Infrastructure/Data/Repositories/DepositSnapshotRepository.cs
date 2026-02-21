@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DepositStopLoss.Application.Repositories;
+using DepositStopLoss.Application.Persistence;
 using DepositStopLoss.Domain.Deposits;
 using DepositStopLoss.Domain.Snapshots;
 
@@ -25,19 +26,19 @@ public sealed class DepositSnapshotRepository : IDepositSnapshotRepository
     public Task AddAsync(DepositSnapshot snapshot, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task AddRangeAsync(IEnumerable<DepositSnapshot> snapshots, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task DeleteOldestForDepositAsync(DepositIdentity depositId, int keepCount, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<DepositSnapshot>> GetByDepositIdAsync(
@@ -45,7 +46,7 @@ public sealed class DepositSnapshotRepository : IDepositSnapshotRepository
         CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<IReadOnlyList<DepositSnapshot>> GetByDepositInRangeAsync(
@@ -55,12 +56,12 @@ public sealed class DepositSnapshotRepository : IDepositSnapshotRepository
         CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 
     public Task<DepositSnapshot?> GetLatestForDepositAsync(DepositIdentity depositId, CancellationToken cancellationToken = default)
     {
         // TODO: Implement
-        throw new System.NotSupportedException();
+        throw new NotSupportedException();
     }
 }
