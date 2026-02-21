@@ -63,7 +63,7 @@ public sealed class ExchangeRate : Entity<ExchangeRateIdentity>
     public LocalDate RateDate { get; private set; }
 
     /// <summary>
-    ///     Type of rate (Commercial or Concept/Discounted).
+    ///     Type of rate (Commercial or Discounted).
     /// </summary>
     public RateType RateType { get; private set; }
 
@@ -87,7 +87,8 @@ public sealed class ExchangeRate : Entity<ExchangeRateIdentity>
         decimal buyRate,
         decimal sellRate,
         LocalDate rateDate,
-        RateType rateType)
+        RateType rateType,
+        Instant fetchedAt)
     {
         if (buyRate <= 0)
         {
@@ -108,15 +109,14 @@ public sealed class ExchangeRate : Entity<ExchangeRateIdentity>
             sellRate,
             rateDate,
             rateType,
-            SystemClock.Instance.GetCurrentInstant());
+            fetchedAt);
     }
 
     /// <summary>
     ///     Check if rate is expired (older than given duration).
     /// </summary>
-    public bool IsExpired(Duration maxAge)
+    public bool IsExpired(Duration maxAge, Instant now)
     {
-        Instant now = SystemClock.Instance.GetCurrentInstant();
         Duration age = now - FetchedAt;
 
         return age > maxAge;

@@ -12,4 +12,4 @@ public sealed record StopLossThresholdReachedEvent(
     DepositIdentity DepositId,
     Percentage CurrentProfitability,
     Percentage StopLossThreshold,
-    Instant OccurredOn) : DomainEventBase(OccurredOn);
+    Instant OccurredAt) : DomainEventBase(OccurredAt);

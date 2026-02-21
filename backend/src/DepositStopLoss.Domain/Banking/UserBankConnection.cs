@@ -91,7 +91,8 @@ public sealed class UserBankConnection : Entity<UserBankConnectionIdentity>
         string accessToken,
         string refreshToken,
         Instant tokenExpiresAt,
-        string[] scopes)
+        string[] scopes,
+        Instant connectedAt)
     {
         if (string.IsNullOrWhiteSpace(accessToken))
         {
@@ -111,7 +112,7 @@ public sealed class UserBankConnection : Entity<UserBankConnectionIdentity>
             refreshToken,
             tokenExpiresAt,
             scopes,
-            SystemClock.Instance.GetCurrentInstant());
+            connectedAt);
     }
 
     /// <summary>
@@ -125,9 +126,9 @@ public sealed class UserBankConnection : Entity<UserBankConnectionIdentity>
     /// <summary>
     ///     Check if access token is expired.
     /// </summary>
-    public bool IsTokenExpired()
+    public bool IsTokenExpired(Instant now)
     {
-        return SystemClock.Instance.GetCurrentInstant() >= TokenExpiresAt;
+        return now >= TokenExpiresAt;
     }
 
     /// <summary>
@@ -141,9 +142,9 @@ public sealed class UserBankConnection : Entity<UserBankConnectionIdentity>
     /// <summary>
     ///     Record successful sync.
     /// </summary>
-    public void RecordSync()
+    public void RecordSync(Instant syncedAt)
     {
-        LastSyncAt = SystemClock.Instance.GetCurrentInstant();
+        LastSyncAt = syncedAt;
     }
 
     /// <summary>

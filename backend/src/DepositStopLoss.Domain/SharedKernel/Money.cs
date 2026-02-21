@@ -8,6 +8,11 @@ namespace DepositStopLoss.Domain.SharedKernel;
 /// </summary>
 public sealed record Money
 {
+    // EF Core ComplexProperty requires parameterless ctor
+    private Money()
+    {
+    }
+
     private Money(decimal amount, Currency currency)
     {
         Amount = amount;

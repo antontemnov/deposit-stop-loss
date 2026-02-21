@@ -82,14 +82,19 @@ public sealed class Notification : Entity<NotificationIdentity>
     /// <summary>
     ///     Factory method to create notification.
     /// </summary>
-    public static Notification Create(UserIdentity userId, DepositIdentity depositId, NotificationLevel level, string message)
+    public static Notification Create(
+        UserIdentity userId,
+        DepositIdentity depositId,
+        NotificationLevel level,
+        string message,
+        Instant createdAt)
     {
         if (string.IsNullOrWhiteSpace(message))
         {
             throw new ArgumentException("Message cannot be empty", nameof(message));
         }
 
-        return new Notification(NotificationIdentity.New(), userId, depositId, level, message, SystemClock.Instance.GetCurrentInstant());
+        return new Notification(NotificationIdentity.New(), userId, depositId, level, message, createdAt);
     }
 
     /// <summary>
@@ -104,7 +109,7 @@ public sealed class Notification : Entity<NotificationIdentity>
     /// <summary>
     ///     Mark notification as read by user.
     /// </summary>
-    public void MarkAsRead()
+    public void MarkAsRead(Instant readAt)
     {
         if (Status is not NotificationStatus.Sent)
         {
@@ -112,13 +117,13 @@ public sealed class Notification : Entity<NotificationIdentity>
         }
 
         Status = NotificationStatus.Read;
-        ReadAt = SystemClock.Instance.GetCurrentInstant();
+        ReadAt = readAt;
     }
 
     /// <summary>
     ///     Mark notification as sent.
     /// </summary>
-    public void MarkAsSent()
+    public void MarkAsSent(Instant sentAt)
     {
         if (Status is NotificationStatus.Sent)
         {
@@ -126,7 +131,7 @@ public sealed class Notification : Entity<NotificationIdentity>
         }
 
         Status = NotificationStatus.Sent;
-        SentAt = SystemClock.Instance.GetCurrentInstant();
+        SentAt = sentAt;
         ErrorMessage = null;
     }
 

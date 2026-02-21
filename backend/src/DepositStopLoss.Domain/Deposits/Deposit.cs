@@ -27,7 +27,7 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
         DepositIdentity id,
         UserIdentity userId,
         BankIdentity bankId,
-        Money initialAmount,
+        Currency currency,
         Percentage annualInterestRate,
         Instant openedAt,
         int termMonths,
@@ -38,8 +38,7 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
     {
         UserId = userId;
         BankId = bankId;
-        InitialAmount = initialAmount;
-        CurrentAmount = initialAmount;
+        Currency = currency;
         AnnualInterestRate = annualInterestRate;
         OpenedAt = openedAt;
         TermMonths = termMonths;
@@ -66,19 +65,19 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
     public Instant? ClosedAt { get; private set; }
 
     /// <summary>
-    ///     Additional contributions (pополнения).
+    ///     Contributions (пополнения).
     /// </summary>
     public IReadOnlyList<DepositContribution> Contributions => _contributions.AsReadOnly();
 
     /// <summary>
-    ///     Current total amount (initial + contributions).
+    ///     Deposit currency. All contributions must be in this currency.
     /// </summary>
-    public Money CurrentAmount { get; private set; } = null!;
+    public Currency Currency { get; private set; }
 
     /// <summary>
-    ///     Initial deposit amount.
+    ///     Current total amount (sum of all contributions). Derived from contributions.
     /// </summary>
-    public Money InitialAmount { get; private set; } = null!;
+    public decimal CurrentAmount => _contributions.Sum(c => c.Amount);
 
     /// <summary>
     ///     Maturity date (calculated from OpenedAt + TermMonths).
@@ -91,7 +90,7 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
     public Instant OpenedAt { get; private set; }
 
     /// <summary>
-    ///     Exchange rate type (Commercial or Concept).
+    ///     Exchange rate type (Commercial or Discounted).
     /// </summary>
     public RateType RateType { get; private set; }
 
@@ -121,27 +120,30 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
     public UserIdentity UserId { get; private set; }
 
     /// <summary>
-    ///     Factory method to create new deposit.
+    ///     Factory method to create new deposit (without initial contribution).
     /// </summary>
     public static Deposit Create(
         UserIdentity userId,
         BankIdentity bankId,
-        Money initialAmount,
+        Currency currency,
         Percentage annualInterestRate,
         Instant openedAt,
         int termMonths,
         RateType rateType,
         Percentage stopLossThreshold,
         DepositSource source,
-        decimal initialExchangeRate)
+        Instant now)
     {
-        ValidateCreationParameters(termMonths, initialExchangeRate);
+        if (termMonths <= 0)
+        {
+            throw new ArgumentException("Term must be positive", nameof(termMonths));
+        }
 
         var deposit = new Deposit(
             DepositIdentity.New(),
             userId,
             bankId,
-            initialAmount,
+            currency,
             annualInterestRate,
             openedAt,
             termMonths,
@@ -149,13 +151,7 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
             stopLossThreshold,
             source);
 
-        // Add initial contribution
-        var initialContribution = DepositContribution.Create(initialAmount, openedAt, initialExchangeRate);
-
-        deposit._contributions.Add(initialContribution);
-
-        // Raise domain event
-        deposit.AddDomainEvent(new DepositCreatedEvent(deposit.Id, userId, SystemClock.Instance.GetCurrentInstant()));
+        deposit.AddDomainEvent(new DepositCreatedEvent(deposit.Id, userId, now));
 
         return deposit;
     }
@@ -163,17 +159,11 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
     /// <summary>
     ///     Add funds to deposit (пополнение).
     /// </summary>
-    public void AddFunds(Money amount, decimal exchangeRate, Instant contributedAt)
+    public void AddFunds(decimal amount, decimal exchangeRate, Instant contributedAt, Instant now)
     {
         if (Status is not DepositStatus.Active)
         {
             throw new InvalidOperationException("Can only add funds to active deposit");
-        }
-
-        if (!amount.HasSameCurrency(InitialAmount))
-        {
-            throw new InvalidOperationException(
-                $"Contribution currency {amount.Currency} must match deposit currency {InitialAmount.Currency}");
         }
 
         if (exchangeRate <= 0)
@@ -181,19 +171,17 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
             throw new ArgumentException("Exchange rate must be positive", nameof(exchangeRate));
         }
 
-        var contribution = DepositContribution.Create(amount, contributedAt, exchangeRate);
+        var contribution = DepositContribution.Create(Id, amount, contributedAt, exchangeRate);
         _contributions.Add(contribution);
 
-        CurrentAmount = CurrentAmount.Add(amount);
-
-        AddDomainEvent(new DepositFundsAddedEvent(Id, amount, exchangeRate, SystemClock.Instance.GetCurrentInstant()));
+        AddDomainEvent(new DepositFundsAddedEvent(Id, amount, exchangeRate, now));
     }
 
     /// <summary>
     ///     Calculate weighted average exchange rate across all contributions.
     ///     Used for profitability calculation when deposit has multiple contributions.
     /// </summary>
-    public decimal CalculateWeightedAverageExchangeRate()
+    public decimal CalculateWeightedAverageExchangeRate(Instant asOf)
     {
         if (_contributions.Count is 0)
         {
@@ -205,11 +193,9 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
             return _contributions[0].ExchangeRateAtContribution;
         }
 
-        Instant now = SystemClock.Instance.GetCurrentInstant();
+        decimal totalWeighted = _contributions.Sum(c => c.Amount * c.ExchangeRateAtContribution * c.DaysFromContribution(asOf));
 
-        decimal totalWeighted = _contributions.Sum(c => c.Amount.Amount * c.ExchangeRateAtContribution * c.DaysFromContribution(now));
-
-        decimal totalWeights = _contributions.Sum(c => c.Amount.Amount * c.DaysFromContribution(now));
+        decimal totalWeights = _contributions.Sum(c => c.Amount * c.DaysFromContribution(asOf));
 
         return totalWeighted / totalWeights;
     }
@@ -236,13 +222,13 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
         Status = DepositStatus.Closed;
         ClosedAt = closedAt;
 
-        AddDomainEvent(new DepositClosedEvent(Id, closedAt, SystemClock.Instance.GetCurrentInstant()));
+        AddDomainEvent(new DepositClosedEvent(Id, closedAt, closedAt));
     }
 
     /// <summary>
     ///     Pause deposit monitoring.
     /// </summary>
-    public void Pause()
+    public void Pause(Instant now)
     {
         if (Status is DepositStatus.Closed)
         {
@@ -251,13 +237,29 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
 
         Status = DepositStatus.Paused;
 
-        AddDomainEvent(new DepositPausedEvent(Id, SystemClock.Instance.GetCurrentInstant()));
+        AddDomainEvent(new DepositPausedEvent(Id, now));
+    }
+
+    /// <summary>
+    ///     Remove contribution from deposit.
+    /// </summary>
+    public void RemoveContribution(DepositContributionIdentity contributionId)
+    {
+        if (Status is not DepositStatus.Active)
+        {
+            throw new InvalidOperationException("Can only modify active deposit");
+        }
+
+        DepositContribution contribution = _contributions.FirstOrDefault(c => c.Id.Equals(contributionId))
+            ?? throw new InvalidOperationException($"Contribution {contributionId.Value} not found");
+
+        _contributions.Remove(contribution);
     }
 
     /// <summary>
     ///     Resume deposit monitoring.
     /// </summary>
-    public void Resume()
+    public void Resume(Instant now)
     {
         if (Status is not DepositStatus.Paused)
         {
@@ -266,14 +268,34 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
 
         Status = DepositStatus.Active;
 
-        AddDomainEvent(new DepositResumedEvent(Id, SystemClock.Instance.GetCurrentInstant()));
+        AddDomainEvent(new DepositResumedEvent(Id, now));
+    }
+
+    /// <summary>
+    ///     Update an existing contribution.
+    /// </summary>
+    public void UpdateContribution(
+        DepositContributionIdentity contributionId,
+        decimal? amount = null,
+        Instant? contributedAt = null,
+        decimal? exchangeRate = null)
+    {
+        if (Status is not DepositStatus.Active)
+        {
+            throw new InvalidOperationException("Can only modify active deposit");
+        }
+
+        DepositContribution contribution = _contributions.FirstOrDefault(c => c.Id.Equals(contributionId))
+            ?? throw new InvalidOperationException($"Contribution {contributionId.Value} not found");
+
+        contribution.Update(amount, contributedAt, exchangeRate);
     }
 
     /// <summary>
     ///     Update deposit details. Only allowed for manually created deposits.
     ///     API-imported deposits are read-only (except StopLoss).
     /// </summary>
-    public void UpdateDetails(Instant? openedAt = null, Percentage? annualInterestRate = null, int? termMonths = null, Money? amount = null)
+    public void UpdateDetails(Instant? openedAt = null, Percentage? annualInterestRate = null, int? termMonths = null)
     {
         if (!CanEditDetails())
         {
@@ -301,18 +323,6 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
             TermMonths = termMonths.Value;
             MaturityDate = CalculateMaturityDate(OpenedAt, termMonths.Value);
         }
-
-        if (amount is not null)
-        {
-            if (!amount.HasSameCurrency(InitialAmount))
-            {
-                throw new InvalidOperationException(
-                    $"New amount currency {amount.Currency} must match deposit currency {InitialAmount.Currency}");
-            }
-
-            InitialAmount = amount;
-            CurrentAmount = amount;
-        }
     }
 
     /// <summary>
@@ -329,18 +339,5 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
         LocalDate maturityDate = openedDate.PlusMonths(termMonths);
 
         return maturityDate.AtMidnight().InUtc().ToInstant();
-    }
-
-    private static void ValidateCreationParameters(int termMonths, decimal initialExchangeRate)
-    {
-        if (termMonths <= 0)
-        {
-            throw new ArgumentException("Term must be positive", nameof(termMonths));
-        }
-
-        if (initialExchangeRate <= 0)
-        {
-            throw new ArgumentException("Exchange rate must be positive", nameof(initialExchangeRate));
-        }
     }
 }

@@ -1,4 +1,8 @@
-﻿using DepositStopLoss.Domain.SharedKernel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using DepositStopLoss.Domain.SharedKernel;
 
 namespace DepositStopLoss.Domain.Banking;
 
@@ -7,17 +11,18 @@ namespace DepositStopLoss.Domain.Banking;
 /// </summary>
 public sealed class Bank : Entity<BankIdentity>
 {
+    private readonly List<BankRateSource> _rateSources = new();
+
     private Bank()
     {
     }
 
-    private Bank(BankIdentity id, string code, string name, string commercialApiUrl, string? discountedApiUrl)
+    private Bank(BankIdentity id, string code, string name, BankType type)
         : base(id)
     {
         Code = code;
         Name = name;
-        CommercialApiUrl = commercialApiUrl;
-        DiscountedApiUrl = discountedApiUrl;
+        Type = type;
         IsActive = true;
     }
 
@@ -25,16 +30,6 @@ public sealed class Bank : Entity<BankIdentity>
     ///     Bank code (TBC, BOG, NBG).
     /// </summary>
     public string Code { get; private set; } = null!;
-
-    /// <summary>
-    ///     API URL for commercial exchange rates.
-    /// </summary>
-    public string CommercialApiUrl { get; private set; } = null!;
-
-    /// <summary>
-    ///     API URL for discounted rates (TBC Concept). Null if not supported.
-    /// </summary>
-    public string? DiscountedApiUrl { get; }
 
     /// <summary>
     ///     Is bank active for monitoring.
@@ -47,11 +42,29 @@ public sealed class Bank : Entity<BankIdentity>
     public string Name { get; private set; } = null!;
 
     /// <summary>
+    ///     Exchange rate sources configured for this bank.
+    /// </summary>
+    public IReadOnlyList<BankRateSource> RateSources => _rateSources.AsReadOnly();
+
+    /// <summary>
+    ///     Bank type (Commercial or CentralBank).
+    /// </summary>
+    public BankType Type { get; private set; }
+
+    /// <summary>
     ///     Factory method to create bank.
     /// </summary>
-    public static Bank Create(string code, string name, string commercialApiUrl, string? discountedApiUrl = null)
+    public static Bank Create(string code, string name, BankType type)
     {
-        return new Bank(BankIdentity.New(), code, name, commercialApiUrl, discountedApiUrl);
+        return new Bank(BankIdentity.New(), code, name, type);
+    }
+
+    /// <summary>
+    ///     Whether this bank accepts deposits.
+    /// </summary>
+    public bool AcceptsDeposits()
+    {
+        return Type is BankType.Commercial;
     }
 
     /// <summary>
@@ -63,6 +76,22 @@ public sealed class Bank : Entity<BankIdentity>
     }
 
     /// <summary>
+    ///     Add a rate source for this bank.
+    /// </summary>
+    public BankRateSource AddRateSource(RateType rateType, string apiUrl)
+    {
+        if (_rateSources.Any(rs => rs.RateType == rateType))
+        {
+            throw new InvalidOperationException($"Rate source for {rateType} already exists");
+        }
+
+        var rateSource = BankRateSource.Create(Id, rateType, apiUrl);
+        _rateSources.Add(rateSource);
+
+        return rateSource;
+    }
+
+    /// <summary>
     ///     Deactivate bank.
     /// </summary>
     public void Deactivate()
@@ -71,10 +100,18 @@ public sealed class Bank : Entity<BankIdentity>
     }
 
     /// <summary>
-    ///     Check if bank supports discounted rates.
+    ///     Get API URL for a specific rate type. Returns null if not supported.
     /// </summary>
-    public bool SupportsDiscountedRates()
+    public string? GetApiUrl(RateType rateType)
     {
-        return !string.IsNullOrEmpty(DiscountedApiUrl);
+        return _rateSources.FirstOrDefault(rs => rs.RateType == rateType)?.ApiUrl;
+    }
+
+    /// <summary>
+    ///     Check if bank supports a specific rate type.
+    /// </summary>
+    public bool SupportsRateType(RateType rateType)
+    {
+        return _rateSources.Any(rs => rs.RateType == rateType);
     }
 }

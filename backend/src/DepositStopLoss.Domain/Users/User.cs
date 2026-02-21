@@ -89,9 +89,15 @@ public sealed class User : AggregateRoot<UserIdentity>
     /// <summary>
     ///     Factory method to create new user from Telegram registration.
     /// </summary>
-    public static User Register(long telegramId, string username, string firstName, string? lastName, string languageCode)
+    public static User Register(
+        long telegramId,
+        string username,
+        string firstName,
+        string? lastName,
+        string languageCode,
+        Instant registeredAt)
     {
-        var user = new User(UserIdentity.New(), telegramId, username, firstName, languageCode, SystemClock.Instance.GetCurrentInstant());
+        var user = new User(UserIdentity.New(), telegramId, username, firstName, languageCode, registeredAt);
 
         user.LastName = lastName;
 
@@ -117,9 +123,9 @@ public sealed class User : AggregateRoot<UserIdentity>
     /// <summary>
     ///     Update last activity timestamp.
     /// </summary>
-    public void RecordActivity()
+    public void RecordActivity(Instant now)
     {
-        LastActivityAt = SystemClock.Instance.GetCurrentInstant();
+        LastActivityAt = now;
     }
 
     /// <summary>

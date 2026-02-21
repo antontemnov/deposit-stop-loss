@@ -9,4 +9,4 @@ namespace DepositStopLoss.Domain.Events;
 /// <summary>
 ///     Domain event: Deposit was created.
 /// </summary>
-public sealed record DepositCreatedEvent(DepositIdentity DepositId, UserIdentity UserId, Instant OccurredOn) : DomainEventBase(OccurredOn);
+public sealed record DepositCreatedEvent(DepositIdentity DepositId, UserIdentity UserId, Instant OccurredAt) : DomainEventBase(OccurredAt);

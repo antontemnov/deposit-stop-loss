@@ -8,6 +8,11 @@ namespace DepositStopLoss.Domain.SharedKernel;
 /// </summary>
 public sealed record Percentage
 {
+    // EF Core ValueConverter requires parameterless ctor
+    private Percentage()
+    {
+    }
+
     private Percentage(decimal value)
     {
         Value = value;

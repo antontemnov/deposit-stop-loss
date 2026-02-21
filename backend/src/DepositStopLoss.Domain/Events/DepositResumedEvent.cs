@@ -8,4 +8,4 @@ namespace DepositStopLoss.Domain.Events;
 /// <summary>
 ///     Domain event: Deposit monitoring was resumed.
 /// </summary>
-public sealed record DepositResumedEvent(DepositIdentity DepositId, Instant OccurredOn) : DomainEventBase(OccurredOn);
+public sealed record DepositResumedEvent(DepositIdentity DepositId, Instant OccurredAt) : DomainEventBase(OccurredAt);

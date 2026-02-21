@@ -8,5 +8,5 @@ namespace DepositStopLoss.Domain.Events;
 /// <summary>
 ///     Domain event: Funds were added to deposit.
 /// </summary>
-public sealed record DepositFundsAddedEvent(DepositIdentity DepositId, Money AmountAdded, decimal ExchangeRate, Instant OccurredOn)
-    : DomainEventBase(OccurredOn);
+public sealed record DepositFundsAddedEvent(DepositIdentity DepositId, decimal AmountAdded, decimal ExchangeRate, Instant OccurredAt)
+    : DomainEventBase(OccurredAt);
