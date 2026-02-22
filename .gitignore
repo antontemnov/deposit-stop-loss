@@ -33,6 +33,9 @@ dist/
 .env.local
 appsettings.Development.json
 
+# Per-environment secrets (testing/prod only — local secrets are committed)
+.devops/configurations/*/secrets.yaml
+
 # Logs
 logs/
 *.log

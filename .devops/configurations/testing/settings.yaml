@@ -1,0 +1,5 @@
+# Testing — application settings
+Logging:
+  LogLevel:
+    Default: Information
+    Microsoft.EntityFrameworkCore: Warning

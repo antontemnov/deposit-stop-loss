@@ -1,0 +1,5 @@
+# Production — application settings
+Logging:
+  LogLevel:
+    Default: Warning
+    Microsoft.EntityFrameworkCore: Error

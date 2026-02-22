@@ -1,0 +1,8 @@
+# Local development — application settings
+Logging:
+  LogLevel:
+    Default: Debug
+    Microsoft.EntityFrameworkCore.Database.Command: Information
+
+AllowedOrigins:
+  - http://localhost:4200

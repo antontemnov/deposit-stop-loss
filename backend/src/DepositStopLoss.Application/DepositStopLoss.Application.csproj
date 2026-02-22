@@ -3,6 +3,7 @@
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), global.json))\.props\DotNet.targets" />
 
   <ItemGroup>
+    <PackageReference Include="FastEndpoints" />
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="ErrorOr" />

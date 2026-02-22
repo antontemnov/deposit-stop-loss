@@ -3,6 +3,7 @@
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), global.json))\.props\DotNet.targets" />
 
   <ItemGroup>
+    <PackageReference Include="NetEscapades.Configuration.Yaml" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />

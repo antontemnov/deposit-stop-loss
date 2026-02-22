@@ -1,0 +1,3 @@
+# Local development — environment infrastructure
+ConnectionStrings:
+  DefaultConnection: "Host=localhost;Port=5432;Database=deposit_stop_loss;Username=postgres;Password=postgres"

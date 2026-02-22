@@ -1,0 +1,4 @@
+# Production — environment infrastructure
+# SSL certificate auth — no password needed. Certs mounted via Docker volumes.
+ConnectionStrings:
+  DefaultConnection: "Host=postgres;Port=5432;Database=deposit_stop_loss;Username=dsl_prod;SSL Mode=Verify-Full;Root Certificate=/app/certs/ca.crt;SSL Certificate=/app/certs/client.pfx"

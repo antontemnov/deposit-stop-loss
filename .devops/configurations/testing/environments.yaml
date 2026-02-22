@@ -1,0 +1,3 @@
+# Testing — environment infrastructure
+ConnectionStrings:
+  DefaultConnection: "Host=postgres;Port=5432;Database=deposit_stop_loss_test;Username=dsl_test;SSL Mode=Verify-Full;Root Certificate=/app/certs/ca.crt;SSL Certificate=/app/certs/client.pfx"
