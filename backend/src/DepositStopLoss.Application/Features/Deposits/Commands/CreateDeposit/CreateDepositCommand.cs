@@ -1,9 +1,11 @@
 ﻿using System;
 
-using DepositStopLoss.Application;
 using DepositStopLoss.Application.Common.DTOs;
 
 using ErrorOr;
+
+using FastEndpoints;
+
 using NodaTime;
 
 namespace DepositStopLoss.Application.Features.Deposits.Commands.CreateDeposit;
@@ -19,6 +21,5 @@ public sealed record CreateDepositCommand(
     decimal AnnualInterestRate,
     int TermMonths,
     Instant OpenedAt,
-    Instant MaturityDate,
     string RateType,
     decimal StopLossThreshold) : ICommand<ErrorOr<DepositDto>>;

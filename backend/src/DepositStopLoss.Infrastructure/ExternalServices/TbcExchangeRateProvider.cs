@@ -12,7 +12,7 @@ namespace DepositStopLoss.Infrastructure.ExternalServices;
 
 /// <summary>
 ///     TBC Bank exchange rate provider.
-///     Supports Commercial and Concept (discounted) rates.
+///     Supports Commercial and Discounted (TBC Concept) rates.
 ///     https://developers.tbcbank.ge
 /// </summary>
 public sealed class TbcExchangeRateProvider : IExchangeRateProvider
@@ -34,7 +34,7 @@ public sealed class TbcExchangeRateProvider : IExchangeRateProvider
     {
         // TODO: Implement TBC API call
         // Commercial: https://api.tbcbank.ge/v1/exchange-rates/commercial
-        // Concept: https://api.tbcbank.ge/v1/exchange-rates/concept
+        // Discounted (Concept): https://api.tbcbank.ge/v1/exchange-rates/concept
         throw new System.NotSupportedException();
     }
 

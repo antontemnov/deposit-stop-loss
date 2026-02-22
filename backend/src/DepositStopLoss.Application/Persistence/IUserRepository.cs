@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using DepositStopLoss.Domain.Users;
 
-namespace DepositStopLoss.Application.Repositories;
+namespace DepositStopLoss.Application.Persistence;
 
 /// <summary>
 ///     Repository interface for User aggregate.

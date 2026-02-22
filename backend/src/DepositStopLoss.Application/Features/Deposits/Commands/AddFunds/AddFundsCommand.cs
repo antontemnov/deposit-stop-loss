@@ -1,8 +1,9 @@
 ﻿using System;
 
-using DepositStopLoss.Application;
-
 using ErrorOr;
+
+using FastEndpoints;
+
 using NodaTime;
 
 namespace DepositStopLoss.Application.Features.Deposits.Commands.AddFunds;

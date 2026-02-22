@@ -6,7 +6,7 @@ using DepositStopLoss.Domain.Deposits;
 using DepositStopLoss.Domain.Notifications;
 using DepositStopLoss.Domain.Users;
 
-namespace DepositStopLoss.Application.Repositories;
+namespace DepositStopLoss.Application.Persistence;
 
 /// <summary>
 ///     Repository interface for Notification entity.

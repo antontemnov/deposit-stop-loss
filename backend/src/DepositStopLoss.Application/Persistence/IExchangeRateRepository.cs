@@ -7,7 +7,7 @@ using DepositStopLoss.Domain.SharedKernel;
 
 using NodaTime;
 
-namespace DepositStopLoss.Application.Repositories;
+namespace DepositStopLoss.Application.Persistence;
 
 /// <summary>
 ///     Repository interface for ExchangeRate entity.

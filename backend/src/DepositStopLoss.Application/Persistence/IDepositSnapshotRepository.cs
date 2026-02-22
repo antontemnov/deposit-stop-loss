@@ -7,7 +7,7 @@ using DepositStopLoss.Domain.Snapshots;
 
 using NodaTime;
 
-namespace DepositStopLoss.Application.Repositories;
+namespace DepositStopLoss.Application.Persistence;
 
 /// <summary>
 ///     Repository interface for DepositSnapshot entity.

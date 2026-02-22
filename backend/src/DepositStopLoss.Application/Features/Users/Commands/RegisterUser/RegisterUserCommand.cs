@@ -1,7 +1,8 @@
-﻿using DepositStopLoss.Application;
-using DepositStopLoss.Application.Common.DTOs;
+﻿using DepositStopLoss.Application.Common.DTOs;
 
 using ErrorOr;
+
+using FastEndpoints;
 
 namespace DepositStopLoss.Application.Features.Users.Commands.RegisterUser;
 

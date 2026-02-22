@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 
-using DepositStopLoss.Application.Services;
-
 using FluentValidation;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -20,11 +18,7 @@ public static class DependencyInjection
         // Register FluentValidation validators
         services.AddValidatorsFromAssembly(assembly);
 
-        // Register Application Services
-        services.AddScoped<IDepositCalculator, DepositCalculator>();
-
-        // Register Command/Query Handlers
-        // TODO: Register handlers when they are created
+        // Command/Query handlers are registered automatically by FastEndpoints
         return services;
     }
 }

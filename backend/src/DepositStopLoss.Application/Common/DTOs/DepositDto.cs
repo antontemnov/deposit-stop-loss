@@ -26,7 +26,7 @@ public sealed record DepositDto
 
     public required decimal InitialAmount { get; init; }
 
-    public required Instant MaturityDate { get; init; }
+    public required LocalDate MaturityDate { get; init; }
 
     public required Instant OpenedAt { get; init; }
 

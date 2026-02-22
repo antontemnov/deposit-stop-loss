@@ -23,8 +23,8 @@ public sealed class CreateDepositCommandValidator : AbstractValidator<CreateDepo
 
         RuleFor(x => x.RateType)
             .NotEmpty()
-            .Must(x => x is "Commercial" or "Concept")
-            .WithMessage("Rate type must be 'Commercial' or 'Concept'");
+            .Must(x => x is "Commercial" or "Discounted")
+            .WithMessage("Rate type must be 'Commercial' or 'Discounted'");
 
         RuleFor(x => x.StopLossThreshold).InclusiveBetween(-50, 0).WithMessage("Stop loss threshold must be between -50% and 0%");
     }
