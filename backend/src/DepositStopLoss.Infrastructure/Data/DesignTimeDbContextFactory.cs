@@ -26,7 +26,11 @@ public sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<App
                 "ConnectionStrings:DefaultConnection not found in environments.yaml");
 
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseNpgsql(connectionString, npgsql => npgsql.UseNodaTime());
+        optionsBuilder.UseNpgsql(connectionString, npgsql =>
+        {
+            npgsql.UseNodaTime();
+            npgsql.EnableRetryOnFailure();
+        });
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }

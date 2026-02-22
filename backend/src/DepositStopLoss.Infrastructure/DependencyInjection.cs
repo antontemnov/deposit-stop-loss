@@ -25,7 +25,11 @@ public static class DependencyInjection
         // Database
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(
             configuration.GetConnectionString("DefaultConnection"),
-            npgsqlOptions => npgsqlOptions.UseNodaTime()));
+            npgsqlOptions =>
+            {
+                npgsqlOptions.UseNodaTime();
+                npgsqlOptions.EnableRetryOnFailure();
+            }));
 
         // Unit of Work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
