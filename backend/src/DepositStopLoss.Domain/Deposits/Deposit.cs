@@ -82,7 +82,7 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
     /// <summary>
     ///     Maturity date (calculated from OpenedAt + TermMonths).
     /// </summary>
-    public Instant MaturityDate { get; private set; }
+    public LocalDate MaturityDate { get; private set; }
 
     /// <summary>
     ///     When deposit was opened.
@@ -333,11 +333,10 @@ public sealed class Deposit : AggregateRoot<DepositIdentity>
         StopLossThreshold = newThreshold;
     }
 
-    private static Instant CalculateMaturityDate(Instant openedAt, int termMonths)
+    private static LocalDate CalculateMaturityDate(Instant openedAt, int termMonths)
     {
-        LocalDate openedDate = openedAt.InUtc().LocalDateTime.Date;
-        LocalDate maturityDate = openedDate.PlusMonths(termMonths);
+        LocalDate openedDate = openedAt.InUtc().Date;
 
-        return maturityDate.AtMidnight().InUtc().ToInstant();
+        return openedDate.PlusMonths(termMonths);
     }
 }
